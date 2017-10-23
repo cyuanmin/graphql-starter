@@ -10,33 +10,52 @@ import {
     GraphQLFloat
   } from 'graphql';
 
-  
+  // Here is some dummy data to make this piece of code simpler.
+// It will be changeable after introducing mutation.
+var TODOs = [
+    {
+      "id": 1446412739542,
+      "title": "Read emails",
+      "completed": false
+    },
+    {
+      "id": 1446412740883,
+      "title": "Buy orange",
+      "completed": true
+    }
+  ];
+
+  const TodoType = new GraphQLObjectType({
+    name: 'todo',
+    fields: function () {
+      return {
+        id: {
+          type: GraphQLInt
+        },
+        title: {
+          type: GraphQLString
+        },
+        completed: {
+          type: GraphQLBoolean
+        }
+      }
+    }
+  });
+
   
   const query = new GraphQLObjectType({
     name: "Query",
     description: "First GraphQL Server Config - Yay!",
-    fields: () => ({
-      hello: {
-        type: GraphQLString,
-        description: "Accepts a name so you can be nice and say hi",
-        args: {
-          name: {
-            type: new GraphQLNonNull(GraphQLString),
-            description: "Name you want to say hi to :)",
-          }
-        },
-        resolve: (_,args) => {
-          return `Hello, ${args.name}!!!`;
+    fields: function(){
+        return {
+            todos:{
+                type: new GraphQLList(TodoType),
+                resolve: function(){
+                    return TODOs;
+                }
+            }
         }
-      },
-      luckyNumber: {
-        type: GraphQLInt,
-        description: "A lucky number",
-        resolve: () => {
-          return 888;
-        }
-      }
-    })
+    }
   });
   
   const schema = new GraphQLSchema({
