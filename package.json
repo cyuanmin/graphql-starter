@@ -25,5 +25,8 @@
     "express-graphql": "^0.4.5",
     "graphql": "^0.4.14",
     "webpack": "^1.12.11"
+  },
+  "devDependencies": {
+    "axios": "^0.17.0"
   }
 }
